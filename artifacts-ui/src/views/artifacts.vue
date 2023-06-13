@@ -2152,10 +2152,10 @@ export default {
   margin: 8px;
 }
 
-.config-tab /deep/ .ivu-tabs-nav {
+.config-tab ::deep .ivu-tabs-nav {
   width: 100%;
 }
-.config-tab /deep/ .ivu-tabs-tab {
+.config-tab ::deep .ivu-tabs-tab {
   width: 15%;
   text-align: center;
 }
