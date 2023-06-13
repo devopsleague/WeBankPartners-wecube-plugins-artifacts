@@ -373,7 +373,7 @@
 </template>
 
 <script>
-import { getSpecialConnector, getAllCITypesWithAttr, deleteCiDatas, operateCiState, operateCiStateWithData, getPackageCiTypeId, getSystemDesignVersion, getSystemDesignVersions, retrieveEntity, updateEntity, queryPackages, queryArtifactsList, getPackageDetail, updatePackage, getFiles, compareBaseLineFiles, uploadArtifact, getCompareContent, queryHistoryPackages, getCITypeOperations } from '@/api/server.js'
+import { getSpecialConnector, getAllCITypesWithAttr, deleteCiDatas, operateCiState, operateCiStateWithData, getPackageCiTypeId, getSystemDesignVersion, getSystemDesignVersions, retrieveEntity, updateEntity, queryPackages, queryArtifactsList, getPackageDetail, updatePackage, getFiles, compareBaseLineFiles, uploadArtifact, getCompareContent, queryHistoryPackages, getCITypeOperations, getVariableRootCiTypeId } from '@/api/server.js'
 import { setCookie, getCookie } from '../util/cookie.js'
 import iconFile from '../assets/file.png'
 import iconFolder from '../assets/folder.png'
@@ -383,8 +383,8 @@ import CompareFile from './compare-file'
 import DisplayPath from './display-path'
 import { decode } from 'js-base64'
 // 业务运行实例ciTypeId
-const defaultAppRootCiTypeId = 'app_instance'
-const defaultDBRootCiTypeId = 'rdb_instance'
+let defaultAppRootCiTypeId = 'app_instance'
+let defaultDBRootCiTypeId = 'rdb_instance'
 // cmdb插件包名
 const cmdbPackageName = 'wecmdb'
 // 差异配置key_name
@@ -735,6 +735,13 @@ export default {
     }
   },
   methods: {
+    async getVariableRootCiType () {
+      let { status, data } = await getVariableRootCiTypeId(this.guid, this.packageId)
+      if (status === 'OK') {
+        defaultAppRootCiTypeId = data.app
+        defaultDBRootCiTypeId = data.db
+      }
+    },
     handleUpload (file) {
       var FR = new FileReader()
       FR.onload = ev => {
@@ -2092,6 +2099,7 @@ export default {
     this.getSpecialConnector()
     this.getAllCITypesWithAttr()
     this.getCITypeOperations()
+    this.getVariableRootCiType()
   },
   components: {
     CompareFile,

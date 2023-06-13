@@ -12,6 +12,7 @@ if (window.request) {
 
 // artifact manage
 export const getPackageCiTypeId = () => req.get('/getPackageCiTypeId')
+export const getVariableRootCiTypeId = () => req.get('/getVariableRootCiTypeId')
 export const getAllCITypesWithAttr = data => {
   const status = data.toString()
   return req.get(`/ci-types?with-attributes=yes&status=${status}`)
